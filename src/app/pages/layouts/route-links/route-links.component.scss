@@ -1,0 +1,40 @@
+@import '../../../../variables';
+
+.nav-item {
+  width: 65%;
+  background-color: $secondary_ligth;
+  border-radius: 24px;
+  height: fit-content;
+  line-height: 17px;
+  text-align: center;
+  // font-weight: 600;
+  margin: auto;
+  margin-top: 15px;
+  // font-size: 1.1em;
+  a {
+    color: #000;
+    cursor: pointer;
+    border-radius: 24px;
+    transition: all 0.3s ease-out;
+  }
+
+  a.active {
+    color: white;
+    background: $secondary_dark;
+  }
+  a:hover {
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 3px 3px 12px;
+    background-color: $secondary_dark;
+    -webkit-box-shadow: -2px 5px 12px 4px  rgba(convert-rgb($for_degrade), 0.4);
+    -moz-box-shadow: -2px 5px 12px 4px  rgba(convert-rgb($for_degrade), 0.4);
+    box-shadow: -2px 5px 12px 4px  rgba(convert-rgb($for_degrade), 0.4);
+  }
+}
+
+@media (max-width: 850px) {
+  .nav-item{
+    min-width: fit-content !important;
+  }
+}

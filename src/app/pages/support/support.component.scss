@@ -1,0 +1,24 @@
+@import '../../../variables';
+
+.btns{
+    width: fit-content;
+}
+
+.actions {
+    position: relative;
+}
+.comment{
+    i,svg{
+        color: white;
+    }
+}
+.btn-style-1.create{
+    margin-top: 8px;
+}
+.new_message{
+    position: absolute;
+    font-size: 10px;
+    i,svg{
+        color: $primary_ligth;
+    }
+}

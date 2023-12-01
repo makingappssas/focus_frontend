@@ -1,0 +1,253 @@
+@import '../../../../variables';
+
+// .body-page {
+//   position: relative;
+//   height: 100%;
+//   padding-top: 90px;
+//   height: 100vh;
+//   width: 80%;
+//   margin: auto;
+// }
+
+.title-modal {
+  color: $secondary_dark;
+  font-weight: 600;
+}
+
+.cont_input {
+  position: fixed;
+  bottom: 60px;
+  // width: 100%;
+  padding-right: 2em;
+  width: calc(100% - 310px);
+  // background-color: antiquewhite;
+}
+
+textarea {
+  resize: none !important;
+  height: 115px;
+}
+
+.input-group {
+  padding-right: 15px !important;
+}
+
+.input-group-append>button {
+  border: none !important;
+  outline: none !important;
+  padding: 20px;
+  font-size: 1.4rem;
+  color: rgb(102, 102, 102);
+  background-color: transparent;
+  height: -webkit-fill-available !important;
+
+}
+
+.input-group-append>button:hover {
+  color: $secondary_dark;
+  font-size: 1.5rem;
+}
+
+.input-group-append>button:focus,
+.input-group-append>button:active {
+  border: none !important;
+  outline: none !important;
+}
+
+#closeModal {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.cont_chat {
+  // height: calc(100% - 180px);
+  //   background-image: url('../../../../assets/landing/logo_navbar.png');
+  //   background-size: 100px;
+  padding-bottom: 25px;
+  height: calc(100vh - 360px);
+  overflow-y: auto;
+}
+
+.prevImg {
+  margin-left: 10px;
+  position: relative;
+
+  img {
+    // border-radius: 83% 17% 86% 14% / 16% 78% 22% 84% ;
+    border-radius: 8px;
+    -webkit-box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.75);
+    margin-left: 10px;
+  }
+}
+
+
+.iconDeleteImg {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.img_chat {
+  max-width: 80%;
+  margin: auto;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 10px;
+
+  cursor: pointer;
+}
+
+.cont_chat::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.cont_chat::-webkit-scrollbar:vertical {
+  width: 5px;
+}
+
+.cont_chat::-webkit-scrollbar-button:increment,
+.cont_chat::-webkit-scrollbar-button {
+  display: none;
+}
+
+.cont_chat::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+
+.cont_chat::-webkit-scrollbar-thumb {
+  background-color: #79797979;
+  border-radius: 20px;
+  border: 1px solid #f1f2f3;
+}
+
+.cont_chat::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.message {
+  width: 47%;
+  display: block;
+  height: fit-content;
+  padding: 10px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: white;
+  //   --animation-duration: 0.1s;
+
+  .autor {
+    font-size: 0.8rem;
+  }
+}
+
+.message.creator {
+  background-color: $secondary_dark;
+  border-radius: 15px 15px 15px 0px;
+  position: relative;
+  -webkit-box-shadow: -8px 10px 5px -7px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -8px 10px 5px -7px rgba(0, 0, 0, 0.75);
+  box-shadow: -8px 10px 5px -7px rgba(0, 0, 0, 0.75);
+}
+
+
+.message.admin {
+  background-color: $secondary_ligth;
+  border-radius: 15px 15px 0px 15px;
+  // float: right;
+  margin-top: 10px;
+  position: relative;
+  -webkit-box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.75);
+}
+
+.d_felx_end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.d_grid {
+  display: grid;
+}
+
+.btn_back {
+  height: 45px;
+  display: flex;
+
+  i,
+  svg {
+    font-size: 1.5em;
+  }
+}
+
+.title-chat {
+  color: white;
+  text-align: center;
+  margin: auto;
+  font-size: 1.4em;
+  font-weight: bold;
+
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .message {
+    width: 80%;
+  }
+
+  .body-page {
+    // width: 95%;
+    height: calc(100vh - 0px);
+  }
+
+  .cont_chat {
+    // height: calc(100% - 135px);
+    height: calc(100vh - 300px);
+  }
+
+  textarea {
+    resize: none !important;
+    height: 80px;
+  }
+}
+
+@media (max-width:990px) {
+  .cont_input {
+    width: calc(100% - 250px);
+  }
+}
+
+@media (max-width: 768px) {
+  .cont_input {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 425px) {
+  .cont_input {
+    height: 80px;
+  }
+
+  .input-group-append>button {
+    height: 80px !important;
+  }
+
+  .prevImg {
+    img {
+      max-width: 100px;
+      height: auto;
+      max-height: 80px;
+    }
+  }
+}
+
+.btn_back svg,
+.btn_back i {
+  color: $secondary_dark;
+}

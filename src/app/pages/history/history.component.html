@@ -1,0 +1,231 @@
+<div class="buttons d-flex">
+  <div class="w-fit-content">
+    <button class="btn-style-3 btn-for-show-tables" (click)="hiddeTable('table-tokens');">{{nameButtonTokens | translate}}</button>
+  </div>
+  <div class="w-fit-content">
+    <button class="btn-style-3 btn-for-show-tables" (click)="hiddeTable('table-ntfs');">{{nameButtonNfts | translate}}</button>
+  </div>
+  <div class="w-fit-content">
+    <button class="btn-style-3 btn-for-show-tables" (click)="hiddeTable('table-referrals');">{{nameButtonRef | translate}}</button>
+  </div>
+</div>
+
+<div class="tables">
+  <div class="header tables mt-4">
+    <div class="filters">
+      <div class="filter-user" *ngIf="currentRol == '2'">
+        <select name="" id="" [(ngModel)]="currentUserFilter" (change)="getHistory(nameMethod)" class="form-select">
+          <option value="" hidden>{{'Usuarios' | translate}}</option>
+          <option *ngIf="currentUserFilter" value="">{{'Eliminar filtro' | translate}}</option>
+          <option *ngFor="let item of users" value="{{item.id}}">
+            {{item.username | translate}}</option>
+        </select>
+      </div>
+      <div class="filter-status" *ngIf="nameMethod != 'HistoryReferralsEarnings'">
+        <select name="" id="" [(ngModel)]="currentStatusFilter" (change)="getHistory(nameMethod)" class="form-select">
+          <option value="" hidden>{{'Estados' | translate}}</option>
+          <option *ngIf="currentStatusFilter" value="">{{'Eliminar filtro' | translate}}</option>
+          <option *ngFor="let item of status" value="{{item.status}}">
+            {{item.name | translate}}</option>
+        </select>
+      </div>
+      <div class="filter-nft" *ngIf="nameMethod == 'HistoryNft'">
+        <select name="" id="" [(ngModel)]="currentNFTFilter" (change)="getHistory(nameMethod)" class="form-select">
+          <option value="" hidden>{{'NFTs' | translate}}</option>
+          <option *ngIf="currentNFTFilter" value="">{{'Eliminar filtro' | translate}}</option>
+          <option value="1">{{'2023 Classic' | translate}}</option>
+          <option value="2">{{'2023 Elite' | translate}}</option>
+          <option value="3">{{'2023 Royal' | translate}}</option>
+        </select>
+      </div>
+
+      <div class="filter-date-one">
+        <input type="datetime-local" class="input-style-1" [(ngModel)]="date_start"
+          [ngClass]="{valid: date_start != ''}" (change)="getHistory(nameMethod)">
+        <span class="lbl-input">{{'Fecha inicio' | translate}}</span>
+      </div>
+
+      <div class="filter-date-two">
+        <input type="datetime-local" class="input-style-1" [(ngModel)]="date_end" [ngClass]="{valid: date_start != ''}"
+          (change)="getHistory(nameMethod)">
+        <span class="lbl-input">{{'Fecha fin' | translate}}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="table-tokens" class="table-tokens animate__animated animate__bounceInLeft">
+    <div class="table-responsive mt-2 pb-3 div-scroll">
+      <div class="info-totals text-light d-flex mt-2" *ngIf="currentRol == '2'">
+        <p>
+          Total BLR: {{acumulated_blr | currencyFormatCop}}
+        </p>
+        <p>
+          {{'Ganancias' | translate}} USDT: ${{acumulated_usdt | currencyFormatCop}} USDT
+        </p>
+      </div>
+      <h2 class="text-center text-light mt-4">{{'Tokens'}}</h2>
+      <table class="table table-hove table-sm" style="color: #000;">
+        <thead>
+          <tr class="title_table">
+            <th>{{'Wallet' | translate}}</th>
+            <th>{{'Monto recibido' | translate}}</th>
+            <th>{{'Monto enviado' | translate}}</th>
+            <th *ngIf="currentRol == '2'">{{'Usuario' | translate}}</th>
+            <th>{{'Fecha' | translate}}</th>
+            <th>{{'Hash' | translate}}</th>
+            <th>{{'Estado' | translate}}</th>
+          </tr>
+        </thead>
+        <span><br></span>
+        <tbody>
+
+          <tr *ngFor="let item of tokens | slice: (page-1) * items_per_page : page * items_per_page let i=index"
+            class="">
+            <td title="{{item.address_send}}" class="td-copy" (click)="copy(item.address_send)">
+              {{item.address_send?.length > 12 ? (item.address_send | slice: 0:12) + '...' : item.address_send}}
+            </td>
+            <td>{{item.amount_recieved_blr | currencyFormatCop}} BLRE</td>
+            <td title="{{item.amount_send_usdt}}" >
+              ${{item.amount_send_usdt | currencyFormatCop}} USDT
+            </td>
+            <td *ngIf="currentRol == '2'">{{item.user}}</td>
+            <td>{{item.date_creation}}</td>
+            <td title="{{item.hash_transaction}}"  class="td-copy" (click)="copy(item.hash_transaction)">
+              {{item.hash_transaction?.length > 12 ? (item.hash_transaction | slice: 0:12) + '...' : item.hash_transaction}}
+            </td>
+            <td *ngIf="item.status">
+              {{'Aprobado' | translate}}
+            </td>
+            <td *ngIf="!item.status">
+              {{'Cancelado' | translate}}
+            </td>
+        </tbody>
+      </table>
+      <ngb-pagination *ngIf="tokens.length > items_per_page" [collectionSize]="tokens.length" [(page)]="page"
+        [maxSize]="10" [pageSize]="items_per_page" [rotate]="true" [ellipses]="false" size="sm" [boundaryLinks]="false">
+        <ng-template ngbPaginationPrevious><i
+            class="fa-solid fa-angles-left icon-control-table"></i>&nbsp;{{'Anterior' | translate}}</ng-template>
+        <ng-template ngbPaginationNext>{{'Siguiente' | translate}}&nbsp;<i
+            class="fa-solid fa-angles-right icon-control-table"></i></ng-template>
+      </ngb-pagination>
+      <p *ngIf="tokens?.length == 0" class="mt-3 text-center w-100 font-weight-bold no-data-table">
+        {{'No hay datos en esta tabla' | translate}}
+      </p>
+    </div>
+  </div>
+  <div id="table-ntfs" class="table-ntfs animate__animated animate__bounceInLeft d-none">
+    <div class="info-totals text-light d-flex mt-2" *ngIf="currentRol == '2'">
+      <p>
+        {{'Total' | translate}} USDT: ${{acumulated_usdt | currencyFormatCop}} USDT
+      </p>
+      <p>
+        {{'Total Classic' | translate}}: {{cant_classic}}
+      </p>
+      <p>
+        {{'Total Elite' | translate}}: {{cant_elite}}
+      </p>
+      <p>
+        {{'Total Royal' | translate}}: {{cant_royal}}
+      </p>
+    </div>
+    <h2 class="text-center text-light mt-4">{{'NFTs'}}</h2>
+    <div class="table-responsive mt-2 pb-3 div-scroll">
+      <table class="table table-hove table-sm" style="color: #000;">
+        <thead>
+          <tr class="title_table">
+            <th>{{'Wallet' | translate}}</th>
+            <th>{{'Monto enviado' | translate}}</th>
+            <th>{{'NFT recibido' | translate}}</th>
+            <th *ngIf="currentRol == '2'">{{'Usuario' | translate}}</th>
+            <th>{{'Fecha' | translate}}</th>
+            <th>{{'Hash' | translate}}</th>
+            <th>{{'Estado' | translate}}</th>
+          </tr>
+        </thead>
+        <span><br></span>
+        <tbody>
+
+          <tr *ngFor="let item of nfts | slice: (page-1) * items_per_page : page * items_per_page let i=index"
+            class="">
+            <td title="{{item.address_send}}" class="td-copy" (click)="copy(item.address_send)">
+              {{item.address_send?.length > 12 ? (item.address_send | slice: 0:12) + '...' : item.address_send}}
+            </td>
+            <td title="{{item.amount_send_usdt}}" >
+              ${{item.amount_send_usdt | currencyFormatCop}} USDT
+            </td>
+            <td>{{item.nft_recieved}}</td>
+            <td *ngIf="currentRol == '2'">{{item.user}}</td>
+            <td>{{item.date_creation}}</td>
+            <td title="{{item.hash_transaction}}"  class="td-copy" (click)="copy(item.hash_transaction)">
+              {{item.hash_transaction?.length > 12 ? (item.hash_transaction | slice: 0:12) + '...' : item.hash_transaction}}
+            </td>
+            <td *ngIf="item.status">
+              {{'Aprobado' | translate}}
+            </td>
+            <td *ngIf="!item.status">
+              {{'Cancelado' | translate}}
+            </td>
+        </tbody>
+      </table>
+      <ngb-pagination *ngIf="nfts.length > items_per_page" [collectionSize]="nfts.length" [(page)]="page"
+        [maxSize]="10" [pageSize]="items_per_page" [rotate]="true" [ellipses]="false" size="sm" [boundaryLinks]="false">
+        <ng-template ngbPaginationPrevious><i
+            class="fa-solid fa-angles-left icon-control-table"></i>&nbsp;{{'Anterior' | translate}}</ng-template>
+        <ng-template ngbPaginationNext>{{'Siguiente' | translate}}&nbsp;<i
+            class="fa-solid fa-angles-right icon-control-table"></i></ng-template>
+      </ngb-pagination>
+      <p *ngIf="nfts?.length == 0" class="mt-3 text-center w-100 font-weight-bold no-data-table">
+        {{'No hay datos en esta tabla' | translate}}
+      </p>
+    </div>
+  </div>
+  <div id="table-referrals" class="table-referrals animate__animated animate__bounceInLeft d-none">
+    <div class="info-totals text-light d-flex mt-2" *ngIf="currentRol == '2'">
+      <p>
+        {{'Total' | translate}} USDT: ${{acumulated_usdt | currencyFormatCop}} USDT
+      </p>
+    </div>
+    <h2 class="text-center text-light mt-4">{{nameTableReferrals | translate}}</h2>
+    <div class="table-responsive mt-2 pb-3 div-scroll">
+      <table class="table table-hove table-sm" style="color: #000;">
+        <thead>
+          <tr class="title_table">
+            <th >{{'Usuario' | translate}}</th>
+            <th>{{'Ganancia' | translate}}</th>
+            <th>{{'Depositado a' | translate}}</th>
+            <th>{{'Fecha' | translate}}</th>
+            <th>{{'Hash' | translate}}</th>
+          </tr>
+        </thead>
+        <span><br></span>
+        <tbody>
+          <tr *ngFor="let item of earning | slice: (page-1) * items_per_page : page * items_per_page let i=index"
+            class="">
+            <td title="{{item.address_send}}">
+              {{item.username_from}}
+            </td>
+            <td title="{{item.amount_send_usdt}}" >
+              ${{item.amount_send_usdt | currencyFormatCop}} USDT
+            </td>
+            <td class="td-copy" (click)="copy(item.address_send)" >{{item.address_send}}</td>
+            <!-- <td *ngIf="currentRol == '2'">{{item.user}}</td> -->
+            <td>{{item.date_creation}}</td>
+            <td title="{{item.hash_transaction}}"  class="td-copy" (click)="copy(item.hash_transaction)">
+              {{item.hash_transaction?.length > 12 ? (item.hash_transaction | slice: 0:12) + '...' : item.hash_transaction}}
+            </td>
+        </tbody>
+      </table>
+      <ngb-pagination *ngIf="earning.length > items_per_page" [collectionSize]="earning.length" [(page)]="page"
+        [maxSize]="10" [pageSize]="items_per_page" [rotate]="true" [ellipses]="false" size="sm" [boundaryLinks]="false">
+        <ng-template ngbPaginationPrevious><i
+            class="fa-solid fa-angles-left icon-control-table"></i>&nbsp;{{'Anterior' | translate}}</ng-template>
+        <ng-template ngbPaginationNext>{{'Siguiente' | translate}}&nbsp;<i
+            class="fa-solid fa-angles-right icon-control-table"></i></ng-template>
+      </ngb-pagination>
+      <p *ngIf="earning?.length == 0" class="mt-3 text-center w-100 font-weight-bold no-data-table">
+        {{'No hay datos en esta tabla' | translate}}
+      </p>
+    </div>
+  </div>
+</div>

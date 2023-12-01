@@ -1,0 +1,128 @@
+<div class="container-page">
+  <div class="form">
+    <div class="content">
+      <div class="logo" [ngClass]="{'h25': form_show == 'register'}">
+        <img src="./assets/logos/logo-focus-white.svg" alt="logo focus" class="img-logo-beyond">
+        <!-- <object data="./assets/logos/logo focus blanco-01.svg" alt="logo beyond" class="img-logo-beyond"></object> -->
+      </div>
+
+      <div class="form-inputs" [ngClass]="{'show': form_show == 'login'}">
+        <form [formGroup]="formLogin">
+          <div class="input">
+            <label for="">{{'Escribe tu usuario' | translate}}</label>
+            <input type="text" formControlName="username">
+          </div>
+          <div class="input">
+            <label for="">{{'Escribe tu contraseña' | translate}}</label>
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
+            <span (click)="togglePasswordVisibility()" class="button-eye">
+              <span [ngClass]="{'d-none': !showPassword}"><i class="fas fa-eye-slash"></i></span>
+              <span [ngClass]="{'d-none': showPassword}"><i class="fas fa-eye"></i></span>
+            </span>
+          </div>
+          <div class="container-capchat" *ngIf="form_show == 'login'">
+            <div class="col-sm-12 mb-2 d-flex justify-content-center">
+              <ngx-recaptcha2 id="ngx_captcha_id_5725" #captchaElem siteKey="{{env.siteKeyCapchat}}"
+                (success)="handleSuccess($event)" [hl]="language">
+              </ngx-recaptcha2>
+            </div>
+          </div>
+          <div class="btns">
+            <button class="btn-login btn-style-3" (click)="login()">
+              {{'Iniciar sesión' | translate}}
+            </button>
+            <button class="btn-login btn-style-3" (click)="chengeCurrentForm('register')">
+              {{'Registrarme' | translate}}
+            </button>
+          </div>
+        </form>
+        <a (click)="chengeCurrentForm('forget-password')"
+          class="forget-password">{{'Olvidé mi contraseña' | translate}}</a>
+      </div>
+
+      <div class="form-register" [ngClass]="{'show': form_show == 'register'}">
+        <app-register *ngIf="showCapchatRegister" [capchat]="showCapchatRegister" (hiddenLink)="hiddenLink($event)" (showLogin)="showLogin()">
+        </app-register>
+
+        <a (click)="chengeCurrentForm('login')" class="forget-password"
+          [ngClass]="{'d-none': hiddenLinkLogin}">{{'Ya tengo una cuenta, quiero iniciar sesión' | translate}}</a>
+      </div>
+
+      <div class="form-forget-password" [ngClass]="{'show': form_show == 'forget-password'}">
+        <div class="input">
+          <label for="">{{'Escribe tu correo electrónico' | translate}}</label>
+          <input type="text" [(ngModel)]="emailForForgetPass" (keyup)="validateEmail(emailForForgetPass)" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+          <span *ngIf="emailForForgetPass != ''  && isValidEmail == false">
+            <small class="small-message">{{'Este email no es valido' | translate}}</small>
+          </span>
+        </div>
+
+        <div class="container-capchat" *ngIf="form_show == 'forget-password'">
+          <div class="col-sm-12 mb-2 d-flex justify-content-center">
+            <ngx-recaptcha2 id="ngx_captcha_id_5725" #captchaElem siteKey="{{env.siteKeyCapchat}}"
+              (success)="handleSuccess($event)" [hl]="language">
+            </ngx-recaptcha2>
+          </div>
+        </div>
+
+        <button class="btn-login btn-style-3" (click)="sendEmailForget()">
+          {{'Enviar correo' | translate}}
+        </button>
+
+        <a (click)="chengeCurrentForm('login')" class="forget-password">{{'Iniciar sesión' | translate}}</a>
+      </div>
+
+      <div class="form-forget-password" [ngClass]="{'show': form_show == 'change-password'}">
+        <div class="input">
+          <label for="">{{'Código de verificación' | translate}}</label>
+          <input type="text" [(ngModel)]="codeForChangePass" (keyup)="validateEmail(emailForForgetPass)" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+        </div>
+        <div class="input">
+          <label for="">{{'Nueva contraseña' | translate}}</label>
+          <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="newPass" (keyup)="validateEmail(emailForForgetPass)" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+          <span (click)="togglePasswordVisibility()" class="button-eye">
+            <span [ngClass]="{'d-none': !showPassword}"><i class="fas fa-eye-slash"></i></span>
+            <span [ngClass]="{'d-none': showPassword}"><i class="fas fa-eye"></i></span>
+          </span>
+        </div>
+        <div class="input">
+          <label for="">{{'Verificar contraseña' | translate}}</label>
+          <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="verifyPass" (keyup)="validateEmail(emailForForgetPass)" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+          <span (click)="togglePasswordVisibility()" class="button-eye">
+            <span [ngClass]="{'d-none': !showPassword}"><i class="fas fa-eye-slash"></i></span>
+            <span [ngClass]="{'d-none': showPassword}"><i class="fas fa-eye"></i></span>
+          </span>
+        </div>
+
+        <div class="container-capchat" *ngIf="form_show == 'change-password'">
+          <div class="col-sm-12 mb-2 d-flex justify-content-center">
+            <ngx-recaptcha2 id="ngx_captcha_id_5725" #captchaElem siteKey="{{env.siteKeyCapchat}}"
+              (success)="handleSuccess($event)" [hl]="language">
+            </ngx-recaptcha2>
+          </div>
+        </div>
+
+        <button class="btn-login btn-style-3" (click)="changePassord()">
+          {{'Cambiar contraseña' | translate}}
+        </button>
+
+        <a (click)="chengeCurrentForm('login')" class="forget-password">{{'Iniciar sesión' | translate}}</a>
+      </div>
+    </div>
+  </div>
+  <div class="image">
+    <img src="./assets/backgrounds/focus-auth.webp" alt="login-image" class="image-login">
+  </div>
+  <!-- <div class="box-change-language">
+    <div ngbDropdown class="dropdown language">
+        <button class="btn btn-secondary dropdown-toggle language" type="button" id="dropdownMenuButton" ngbDropdownToggle>
+          <img [src]="routeImgLanguage" alt="">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
+          <a class="dropdown-item" ngbDropdownItem (click)="setLanguauge('en')"><img src="./assets/logos/usa.webp" alt=""></a>
+          <a class="dropdown-item" ngbDropdownItem (click)="setLanguauge('es')"><img src="./assets/logos/spain.webp" alt=""></a>
+        </div>
+      </div>
+</div> -->
+</div>
+<app-loading *ngIf="loading"></app-loading>

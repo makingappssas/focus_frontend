@@ -1,0 +1,42 @@
+<ul class="nav nav-pills flex-column mb-auto ul_big">
+  <li class="nav-item" *ngIf="currentRol == '3'">
+    <a routerLink="/buytoken" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span>&nbsp;{{'Token' | translate}}</span>
+    </a>
+  </li>
+  <li class="nav-item" *ngIf="currentRol != '1'">
+    <a routerLink="/nfts" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span>&nbsp;{{'NFTs' | translate}}</span>
+    </a>
+  </li>
+  <!-- <li class="nav-item" *ngIf="currentRol != '1'">
+    <a routerLink="/trader" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span>&nbsp;{{'Click2Trade' | translate}}</span>
+    </a>
+  </li> -->
+  <li class="nav-item" *ngIf="currentRol != '1'">
+    <a routerLink="/referrals" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span *ngIf="currentRol == '2'">&nbsp;{{'Usuarios' | translate}}</span>
+      <span *ngIf="currentRol == '3'">&nbsp;{{'Referidos' | translate}}</span>
+    </a>
+  </li>
+  <li class="nav-item" *ngIf="currentRol != '1'">
+    <a routerLink="/history" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span>&nbsp;{{'Compras' | translate}}</span>
+    </a>
+  </li>
+  <li class="nav-item" *ngIf="currentRol != '1'">
+    <a routerLink="/academy" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span>&nbsp;{{'Knowledge' | translate}}</span>
+    </a>
+  </li>
+  <li class="nav-item" *ngIf="currentRol != '1'">
+    <a routerLink="/support" routerLinkActive="active" class="nav-link" (click)="clickId()">
+      <span>&nbsp;{{'Soporte' | translate}}</span>
+    </a>
+  </li>
+
+
+
+
+</ul>

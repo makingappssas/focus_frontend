@@ -1,0 +1,180 @@
+@import '../../../variables';
+
+.container-nfts {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(236px, 1fr));
+  gap: 1em;
+  overflow-y: scroll;
+}
+
+.card-nft {
+  max-width: 250px;
+  min-width: 236px;
+  height: 340px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: rgba(255, 255, 255, 0.534) 0px 4px 15px;
+  transition: box-shadow 0.25s ease-in-out 0s;
+  position: relative;
+  margin: auto;
+
+  .img {
+    width: 100%;
+    overflow: hidden;
+    height: 236px;
+  }
+
+  img {
+    max-width: 100%;
+    width: 236px;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    // position: relative;
+    // z-index: 1;
+    transition: all 0.3s ease-out;
+    transform: scale(1);
+  }
+
+  .texts {
+    // position: relative;
+    // z-index: 2;
+    padding: 1em;
+
+    p {
+      //   text-shadow: 3px 4px 20px black;
+      font-size: 0.9em;
+      font-weight: 600;
+      line-height: 0.5em;
+    }
+
+    .price-nft {
+      font-size: 1.6em;
+      font-weight: bold;
+      line-height: 1em;
+      margin-bottom: 5px;
+    }
+  }
+
+  span.info {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #818181;
+    // text-shadow: 3px 4px 20px black;
+  }
+
+  .buy {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(86deg, rgba(2, 0, 36, 1) 0%, rgba(convert-rgb($secondary_dark), 0.8) 0%, rgba(convert-rgb($for_degrade), 0.66) 100%);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5em 0px;
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+}
+
+.card-nft:hover {
+  .buy {
+    opacity: 1;
+  }
+
+  img {
+    transform: scale(1.5);
+  }
+}
+
+
+.content-detail {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 1em;
+  place-content: center;
+  // align-items: center;
+}
+
+.content-table {
+  max-height: 300px;
+  overflow: auto;
+  padding-bottom: 5px;
+}
+
+table {
+  font-size: 0.8em;
+  text-align: left;
+
+  tr {
+    white-space: normal;
+  }
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 1px;
+  padding: 0.5em;
+}
+
+.info-content {
+  .price {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 9px;
+  }
+}
+
+.label-info {
+  font-weight: bold;
+}
+
+.data-info {
+  background: #272727;
+  padding: 0.5em;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+
+  p {
+    width: 95%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    margin-bottom: 0px;
+    
+  }
+
+  i,
+  svg {
+    position: absolute;
+    right: 13px;
+    top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-nfts {
+    padding-top: 2em;
+  }
+}
+
+@media (max-width: 562px) {
+  .content-detail {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 1em;
+    place-content: center;
+  }
+}

@@ -1,0 +1,98 @@
+<div class="dashboard">
+  <div class="content-dashboard">
+    <div class="rowsD part1">
+      <div class="box-green">
+        <p class="title-box">Capital de operación</p>
+        <p class="amount">
+          $5780
+        </p>
+        <span class="currency">USDT</span>
+      </div>
+      <div class="box-blue">
+        <p class="title-box">Capital de operación</p>
+        <p class="amount">
+          $5780
+        </p>
+        <span class="currency">USDT</span>
+      </div>
+      <div class="box">
+        <p class="title-box">
+          Copytrading
+        </p>
+        <p class="status">
+            <span class="circle-status" [ngClass]="{'green': isChecked, 'red': !isChecked}"></span>&nbsp;<span class="text-span">{{nameStatus}}</span> 
+        </p>
+        <div class="checkbox-container">
+          <label class="switch">
+            <i class="fa-solid fa-check icon-status check green" [ngClass]="{'color-dark': !isChecked}"></i>
+            <i class="fa-solid fa-xmark icon-status close red" [ngClass]="{'color-dark': isChecked}"></i>
+            <input type="checkbox" [(ngModel)]="isChecked" (change)="toggleCheckbox()">
+            <span class="slider" [class.active]="isChecked"></span>
+          </label>
+          <span>&nbsp;{{nameStatusTwo}}</span>
+        </div>
+        
+        
+      </div>
+    </div>
+
+
+    <div class="rowsD part2">
+      <div class="box">
+        <div class="text">
+            <p class="title-box">Dinero generado de hoy</p>
+            <p class="amount">
+                $5780
+            </p>
+            <span class="currency">USDT</span>
+        </div>
+        <div class="graphic">
+            <object data="./assets/trader/graphic2.svg" type="" class="image"></object>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="text">
+            <p class="title-box">Dinero generado de hoy</p>
+            <p class="amount">
+                $5780
+            </p>
+            <span class="currency">USDT</span>
+        </div>
+        <div class="graphic">
+            <object data="./assets/trader/graphic1.svg" type="" class="image"></object>
+        </div>
+      </div>
+    </div>
+    <div class="rowsD part3">
+      <div class="box">
+        <div class="column1">
+          <p>Membresia</p>
+          <p class="title-part3">
+            Master
+          </p>
+          <span>Vence 28/12/23</span>
+          <div class="cont-btn-part3">
+            <button class="btn-style-3">Mejorar</button>
+          </div>
+        </div>
+        <div class="column2">
+          <img src="./assets/trader/logo.svg" alt="logo" class="logo-part3">
+        </div>
+      </div>
+      <div class="box box-key">
+        <object data="./assets/trader/key.svg" type=""></object>
+        <p>Editar API key</p>
+      </div>
+      <div class="box box-key">
+        <object data="./assets/trader/copiar.svg" type=""></object>
+        <p>Copiar codigo de referido</p>
+      </div>
+    </div>
+    <div class="rowsD part4">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+    </div>
+  </div>
+</div>

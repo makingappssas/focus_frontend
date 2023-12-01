@@ -1,0 +1,14 @@
+$primary_dark: #7989b7;
+$secondary_dark: #292ca4;
+$primary_ligth: #3d64e6;
+$secondary_ligth: #5c76f8;
+$for_degrade: #ce00ff;
+$backdrops-modal: rgb(53 53 53 / 27%);
+$blur-backdrops-modal: blur(10px);
+
+@function convert-rgb($color) {
+    @return rgb(red($color),
+      green($color),
+      blue($color));
+  }
+  

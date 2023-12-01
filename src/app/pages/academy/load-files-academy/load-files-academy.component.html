@@ -1,0 +1,85 @@
+<div class="container-modal">
+    <p class="title-modal load-files">{{title_view | translate}}</p>
+    <div class="form">        
+        <form action="" [formGroup]="formFiles">
+            <div class="row">
+                <div class="col">
+                    <div class="">
+                        <label for="">{{'Título' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="title">
+                    </div>
+                    <div class="mt-3">
+                        <label for="">{{'Descripción' | translate}}</label>
+                        <textarea type="text" class="form-control" formControlName="description" (keyup)="descriptionLength()"></textarea>
+                        <small *ngIf="type_file != 'video'" class="float-end">{{formFiles?.get('description').value?.length}}/90</small>
+                        <small *ngIf="type_file == 'video'" class="float-end">{{formFiles?.get('description').value?.length}}/400</small>
+                    </div>
+                    <div class="mt-2" *ngIf="type_file == '6'">
+                        <label for="">{{'Autor' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="author">
+                    </div>
+                    <div class="mt-3" *ngIf="type_file != 'video'">
+                        <label for="">{{'Lenguaje' | translate}}</label>
+                        <select class="form-select" name="" id="" formControlName="language">
+                            <option value="" hidden>{{'Selecciona' | translate}}</option>
+                            <option value="es">{{'Español' | translate}}</option>
+                            <option value="en">{{'Inglés' | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="mt-3" *ngIf="type_file != '5' && type_file != '6' && type_file != 'video'">
+                        <label for="">{{'Tipo de archivo' | translate}}</label>
+                        <select class="form-select" name="" id="" formControlName="type_resource" (change)="typeFileUpload()">
+                            <option value="" hidden>{{'Selecciona' | translate}}</option>
+                            <option *ngFor="let item of type_resource | slice: 0:4" value="{{item.id}}">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div class="mt-3"  *ngIf="type_file != '5' && type_file != 'video'">
+                        <label for="">{{'Selecciona el archivo' | translate}}</label>
+                        <div class="form-input simulator-input-file d-flex justify-content-center align-items-center text-file" (click)="clickId('input_file')">
+                            <span *ngIf="show_icon_docs" ><i [ngClass]="icon_input_file"></i></span>&nbsp;{{text_input_file}}
+                        </div>
+                        <input id="input_file" type="file" class="form-control d-none" (change)="detectFile($event)" 
+                        accept="{{accept_docs}}">
+                        <audio #dom_audio (canplaythrough)="setDuration($event)" id="audio" [src]="src_audio"></audio>
+                    </div> 
+                    <div class="mt-3"  *ngIf="type_file == 'video'">
+                        <label for="">{{'Video' | translate}}</label>
+                        <!-- <input type="file" id="input_video" class="d-none" > -->
+                        <input type="file" accept="video/*" class="form-control" formControlName="file" (change)="detectFileVideo($event)">
+                    </div>
+                </div> 
+
+                <div class="col-5 d-flex justify-content-center align-items-center cont-img mt-2" 
+                *ngIf="type_file == '5' || type_file == 'video'">
+                    <div class="w-100">
+                        <input id="input-image" type="file" hidden (change)="detectFile($event)" accept="image/png, image/jpeg">
+                        <!-- Cargar imagen -->  
+                        <div class="preview-image d-flex justify-content-center align-items-center" (click)="clickId('input-image')">
+                            <img  *ngIf="currentImg != null" [src]="currentImg" alt="">
+                            <span *ngIf="currentImg == null">+</span>
+                            
+                        </div>
+                        <div>
+                            <p class="text-center text-file">{{text_input_file}}</p>
+                        </div>
+                    </div>
+                 
+                </div>
+
+                <div class="mt-3">
+                    <!-- SE VA A GUARDAR -->
+                    <button *ngIf="id_file == 0" id="btn-form-files" class="btn-style-1" (click)="loadDocs()">
+                        {{title_view | translate}}&nbsp;<span style="margin-left:5px" *ngIf="loading_spinner"><img src="./assets/loading.gif" alt=""></span>
+                    </button>
+                    <!-- SE VA A EDITAR -->
+                    <button *ngIf="id_file != 0" id="btn-form-files" class="btn-style-1" (click)="editFile()">
+                        {{title_view | translate}}&nbsp;<span style="margin-left:5px" *ngIf="loading_spinner"><img src="./assets/loading.gif" alt=""></span>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<app-loading *ngIf="loading_spinner"></app-loading>

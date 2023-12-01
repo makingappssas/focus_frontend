@@ -1,0 +1,93 @@
+<form [formGroup]="formRegister" [ngClass]="{'d-none': formShow == 'getCode'}">
+  <div class="input">
+    <label for="">{{'Escribe tu usuario' | translate}}</label>
+    <input type="text" formControlName="username" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+    <span *ngIf="formRegister.get('username').errors && formRegister.get('username').touched">
+      <small class="small-message"
+        *ngIf="formRegister.get('username').hasError('required')">{{ 'Olvidaste este campo' | translate}}</small>
+    </span>
+  </div>
+  <div class="input">
+    <label for="">{{'Escribe tu contraseña' | translate}}</label>
+    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+    <span (click)="togglePasswordVisibility()" class="button-eye">
+      <span [ngClass]="{'d-none': !showPassword}"><i class="fas fa-eye-slash"></i></span>
+      <span [ngClass]="{'d-none': showPassword}"><i class="fas fa-eye"></i></span>
+    </span>
+    <span *ngIf="formRegister.get('password').errors && formRegister.get('password').touched">
+      <small class="small-message"
+        *ngIf="formRegister.get('password').hasError('required')">{{ 'Olvidaste este campo' | translate}}</small>
+    </span>
+  </div>
+  <div class="input">
+    <label for="">{{'Confirma tu contraseña' | translate}}</label>
+    <input [type]="showPassword ? 'text' : 'password'" formControlName="verify_pass" autocomplete="off">
+    <span (click)="togglePasswordVisibility()" class="button-eye">
+      <span [ngClass]="{'d-none': !showPassword}"><i class="fas fa-eye-slash"></i></span>
+      <span [ngClass]="{'d-none': showPassword}"><i class="fas fa-eye"></i></span>
+    </span>
+    <span *ngIf="formRegister.get('verify_pass').errors && formRegister.get('verify_pass').touched">
+      <small class="small-message"
+        *ngIf="formRegister.get('verify_pass').hasError('required')">{{ 'Olvidaste este campo' | translate}}</small>
+    </span>
+  </div>
+
+  <div class="input">
+    <label for="">{{'Correo electronico' | translate}}</label>
+    <input type="text" formControlName="email">
+    <span *ngIf="formRegister.get('email').errors && formRegister.get('email').touched">
+      <small class="small-message"
+        *ngIf="formRegister.get('email').hasError('required')">{{ 'Olvidaste este campo' | translate}}</small>
+      <small class="small-message"
+        *ngIf="formRegister.get('email').hasError('email')">{{ 'Este email no es valido' | translate}}</small>
+    </span>
+  </div>
+  <div class="container-capchat mt-4" *ngIf="showCapchat">
+    <div *ngIf="formShow != 'getCode'" class="col-sm-12 mb-2 d-flex justify-content-center">
+      <ngx-recaptcha2 id="ngx_captcha_id_5726" #captchaElem siteKey="{{env.siteKeyCapchat}}"
+        (success)="handleSuccess($event)" [hl]="language">
+      </ngx-recaptcha2>
+    </div>
+  </div>
+  <button class="btn-login btn-style-3" (click)="getCode()">
+    {{'Continuar' | translate}}
+  </button>
+
+</form>
+
+<div class="code-verify" [ngClass]="{'d-none': formShow != 'getCode'}">
+  <div class="btn-back" (click)="backForm()">
+    <i class="fa-solid fa-circle-left"></i>
+  </div>
+  <div class="input">
+    <label for="">{{'Escribe el código de verificación' | translate}}</label>
+    <input type="text" [(ngModel)]="codeVerify">
+    <div class="container-capchat" *ngIf="formShow == 'getCode'">
+      <div class="col-sm-12 mb-2 d-flex justify-content-center">
+        <ngx-recaptcha2 id="ngx_captcha_id_5727" #captchaElemTwo siteKey="{{env.siteKeyCapchat}}"
+          (success)="handleSuccess($event)" [hl]="language">
+        </ngx-recaptcha2>
+      </div>
+    </div>
+
+
+
+
+    <div class="container-btns d-flex">
+      <button class="btn-login" (click)="getCodeResend()" [ngClass]="{'btn-disabled': formattedMinutes != undefined}">
+        {{'Reenviar' | translate}}<span *ngIf="formattedMinutes != undefined"> - {{formattedMinutes}}:{{formattedSeconds}}</span>
+      </button>
+  
+      <button class="btn-login" (click)="register()">
+        {{'Registrarme' | translate}}
+      </button>
+    </div>
+    <!-- <span *ngIf="formRegister.get('username').errors && formRegister.get('username').touched">
+      <small class="small-message"
+        *ngIf="formRegister.get('username').hasError('required')">{{ 'Olvidaste este campo' | translate}}</small>
+    </span> -->
+  </div>
+</div>
+
+
+<app-loading *ngIf="loading"></app-loading>

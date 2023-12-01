@@ -1,0 +1,32 @@
+<div class="buytoken">
+    <object data="./assets/gobbler_blumer.svg" type="" class="mascot-blummer"></object>
+    <object data="./assets/logos/logo-blumer.svg" alt="" class="logo-blummer"></object>
+    <div class="content-text">
+        <p>{{'Compra blumers y sé parte de la revolución de la web 3.0' | translate}}
+            <span class="detailNft" (click)="clickId('goToLinkToken')">
+                <span class="more-info">
+                    {{'Más información' | translate}}&nbsp;<i class="fa-solid fa-link"></i>
+                </span>
+            </span>
+        </p>
+
+        <button class="btn-style-3" (click)="importTokenForWallet()">
+            {{'Añadir BLRE a tu wallet' | translate}}
+        </button>
+    </div>
+    <div class="content-box">
+        <div class="box">
+            <p class="label-blr">BLRE - Binance Smart Chain (BEP 20)</p>
+            <input type="number" class="input-style-1" (keyup)="calculateValue()" [(ngModel)]="value_blr">
+            <div class="details">
+                <p>{{'El costo será' | translate}}: ${{valueCalculate | currencyFormatCop}} USDT</p>
+                <p>{{'Su saldo es' | translate}}: ${{balanceUsdt | currencyFormatCop}} USDT</p>
+            </div>
+            <button class="btn-style-1" (click)="verifyAccount()" [disabled]="invalidAmount">
+                {{'Comprar ahora' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<a id="goToLinkToken" href="https://blumer.cc/" target="_blank" class="d-none"></a>
+<app-loading *ngIf="loading" [textShow]="walletConnectModalService.textForLoading"></app-loading>

@@ -1,0 +1,62 @@
+
+
+
+    <div class="btn_back">
+      <button (click)="back()" class="no-button">
+        <i class="fa-solid fa-circle-left"></i>
+      </button>
+
+      <p class="title-chat">
+        {{currentTicketName}}
+      </p>
+    </div>
+
+    <div class="">
+      <div id="cont_chat" class="m-0 w-100 cont_chat" #chat>
+        <div *ngFor="let message of messages" class="w-100 d_grid animate__animated animate__fadeIn"
+          [ngClass]="{d_grid: message.author != 'admin', d_felx_end: message.author == 'admin' }">
+          <div class="message creator" [ngClass]="{creator: message.author != 'admin', admin: message.author == 'admin'}">
+            <span class="autor">{{message.author}}:</span>
+            <p style="overflow-wrap: anywhere;">{{message.contents}}</p>
+            <img (click)="openModal(content_img, message.img)" *ngIf="message.img != ''" class="img-fluid img_chat" [src]="message.img" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="cont_input">
+        <div class="input-group">
+          <textarea id="textareaMessage" [(ngModel)]="currentMessage" type="text" class="form-control" placeholder="{{'Escribe tu mensaje' | translate}}"
+            aria-label="Escribe tu mensaje" aria-describedby="basic-addon2" (keydown.enter)="addMessage()"
+            ></textarea>
+            <div *ngIf="current_img != '' && current_img != 'null'" id="prevImg" class="prevImg d-flex align-items-center">
+              <i (click)="cleanImgPrev()" class="iconDeleteImg fa-solid fa-circle-xmark text-danger" style="background-color: white; border-radius: 50%;"></i>
+              <img [src]="current_img" (click)="openModal(content_img, current_img)" alt="" height="100">
+            </div>
+          <div class="input-group-append">
+            <button *ngIf="current_img == '' || current_img == 'null'" id="buttonLoadImg" class="" type="button" (click)="clickLoadImg()" (keydown.enter)="addMessage($event)">
+              <i *ngIf="base64textString.length == 0" class="fa-solid fa-paperclip"></i>
+              <i *ngIf="base64textString.length > 0" class="fa-solid fa-image text-success"></i>
+            </button>
+            <button id="buttonSendMessage" class="" type="button" (click)="addMessage()">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <input #input_load_img id="load_img" (change)="loadImg($event)" type="file" accept="image/png,image/jpeg" class="d-none">
+    </div>
+
+<app-loading *ngIf="loading"></app-loading>
+
+<ng-template #content_img let-modal>
+<div class="modal-body">
+  <button id="closeModal" type="button"
+    (click)="modal.dismiss('Cross click')" style="right: 18px; top: 8px;
+    position: absolute;">
+    <i class="iconDeleteImg fa-solid fa-circle-xmark text-danger" style="background-color: white; border-radius: 50%; font-size: 1.2rem;"></i>
+    </button>
+
+  <img [src]="imgBig" class="d-block m-auto img-fluid" alt="" style="max-height: 90vh;">
+
+</div>
+</ng-template>

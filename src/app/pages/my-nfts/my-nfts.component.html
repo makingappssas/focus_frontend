@@ -1,0 +1,88 @@
+<div class="container-nfts div-scroll">
+    <div class="card-nft" *ngFor="let nft of arrayNfts">
+        <div class="img" (click)="openModal(modalDetailNft, nft)">
+          <img [src]="nft.img" alt="NFT">
+        </div>
+        <div class="texts">
+          <p>{{nft.name}}</p>
+          <p>{{nft.price}} USDT</p>
+          <span class="info">
+            {{nft.date_creation | date}}
+          </span>
+        </div>
+        <button class="buy" (click)="openModal(modalImportNFT, nft)">
+          {{'Importar NFT' | translate}}
+        </button>
+      </div>
+</div>
+<button id="openModalDetailNft" (click)="openModal(modalDetailNft)" class="d-none"></button>
+<button id="openModalImportNFT" (click)="openModal(modalImportNFT)" class="d-none"></button>
+
+<ng-template #modalDetailNft let-modal let-c="close" let-d="dismiss">
+    <div class="modal-body opacity-09">
+      <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="d('Cross click')">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+      <h5 class="modal-title title_modal animate__animated" id="exampleModalLabelSaleInterna">
+        {{currentNft.name | translate}}</h5>
+  
+      <div class="content-detail mt-3">
+        <div class="img-content">
+          <img [src]="currentNft.img" alt="NFT" class="img-fluid">
+        </div>
+        <div class="info-content">
+          <p class="acumulated">{{'Fecha' | translate}}: {{currentNft.date_creation}}</p>
+          <p class="price">{{currentNft.price}} USDT</p>
+          <div class="content-table div-scroll">
+            <table>
+              <thead>
+                <tr class="title_table">
+                  <th>{{'Rubro' | translate}}</th>
+                  <th>{{'Tiempo' | translate}}</th>
+                  <th>{{'Aplicación' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+    
+                <tr *ngFor="let item of detailShow">
+                  <td>{{item.rubro | translate}}</td>
+                  <td>{{item.time | translate}}</td>
+                  <td>{{item.application | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  
+<ng-template #modalImportNFT let-modal let-c="close" let-d="dismiss">
+  <div class="modal-body opacity-09">
+    <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="d('Cross click')">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </button>
+    <h5 class="modal-title title_modal animate__animated" id="exampleModalLabelSaleInterna">
+      {{'Importar NFT' | translate}}</h5>
+
+    <div class="content-detail mt-3">
+      <div class="group-info">
+        <label class="label-info">
+          {{'Dirección' | translate}}: 
+        </label>
+        <div class="data-info" (click)="copy(env.adrressOfNfts)">
+          <p>{{env.adrressOfNfts}}</p><i class="fa-solid fa-copy"></i>
+        </div>
+      </div>
+      <div class="group-info">
+        <label class="label-info">
+          {{'Id del token' | translate}}:
+        </label>
+        <div class="data-info" (click)="copy(currentNft.id)">
+          <p>{{currentNft.id}}</p><i class="fa-solid fa-copy"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

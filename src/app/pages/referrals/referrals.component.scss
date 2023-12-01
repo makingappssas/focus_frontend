@@ -1,0 +1,401 @@
+@import '../../../variables';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.zoom-buttons {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+
+  button {
+    color: white;
+    font-size: 1.5em;
+    margin-right: 15px;
+  }
+
+}
+
+.first-ul {
+  width: max-content;
+  min-width: 100%;
+}
+
+.tree {
+  display: grid;
+  //   place-content: center;
+  overflow: auto;
+  padding-bottom: 0.5em;
+
+  // height: 100%;
+  // width: 100%;
+}
+
+.tree ul {
+  padding-top: 20px;
+  position: relative;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+.tree li {
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 20px 5px 0 5px;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+/*Usaré ::before y ::after para dibujar los conectores*/
+.tree li::before,
+.tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 1px solid #ccc;
+  width: 50%;
+  height: 20px;
+}
+
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 1px solid #ccc;
+}
+
+/*Necesito eliminar los conectores derecho-izquierdo de los elemnetos sin ningún sibling*/
+.tree li:only-child::after,
+.tree li:only-child::before {
+  display: none;
+}
+
+/*Borro el espacio de arriba de los children únicos*/
+.tree li:only-child {
+  padding-top: 0;
+}
+
+/*Borro el conector izquierdo del primer child y el derecho del último child*/
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+}
+
+/*Añado al final el conector vertical para los últimos nodos*/
+.tree li:last-child::before {
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+  -webkit-border-radius: 0 5px 0 0;
+  -moz-border-radius: 0 5px 0 0;
+}
+
+.tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+}
+
+/*Agrego conectores debajo de los parents*/
+.tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0;
+  height: 20px;
+}
+
+.contracted {
+  z-index: 100;
+  position: relative;
+}
+
+.tree li a {
+  border: 1px solid $primary_dark;
+  text-decoration: none;
+  color: white;
+  font-size: 1.1em;
+  display: inline-block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  cursor: pointer;
+  border-radius: 2em;
+  padding: 0.8em;
+}
+
+/*Efectos flotantes*/
+/*Aplico el efecto flotante al descendientes del elemento también.*/
+.tree li a:hover,
+.tree li a:hover+ul li a {
+  background: $primary_dark;
+  color: #000;
+  border: 1px solid white;
+}
+
+/*Estilos de conector para los flotantes*/
+.tree li a:hover+ul li::after,
+.tree li a:hover+ul li::before,
+.tree li a:hover+ul::before,
+.tree li a:hover+ul ul::before {
+  border-color: #94a0b4;
+}
+
+
+
+.pTotalUser {
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 0px;
+  left: 40px;
+}
+
+// COLTON CSS
+.title-body {
+  color: white;
+  font-size: 2em;
+  text-align: center;
+}
+
+.number-ref {
+  color: white;
+  font-weight: 700;
+  font-size: 3em;
+  text-align: center;
+}
+
+.accordion-item {
+  .accordion-item {
+    padding-left: 5px;
+  }
+
+  // border-left:1px solid red;
+
+}
+
+.accordion-button {
+  margin-top: 5px;
+  padding: 0.3em 0.5em;
+  border-radius: 12px;
+
+  border: 1px solid $primary_ligth;
+  color: white;
+  // opacity: 0.9;
+}
+
+.accordion {
+  --bs-accordion-bg: none !important;
+  --bs-accordion-border-width: 0px !important;
+}
+
+.accordion-button.inactive {}
+
+.accordion-button:nth-child(1) {
+  // opacity: 1;
+}
+
+.accordion-button:focus {
+  // border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: $secondary_dark !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 12px !important;
+  border: none;
+  outline: none;
+}
+
+.accordion-button.inactive:not(.collapsed) {
+  background-color: $secondary_dark !important;
+}
+
+.accordion-collapse {
+  border-left: 2px solid $secondary_dark !important;
+}
+
+.accordion-button::after {
+  background-image: url('../../../assets/down-blue-mid.svg') !important;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url('../../../assets/down-white.svg') !important;
+}
+
+
+.accordion-item:nth-child(3) {
+  // border-left:1px solid green;
+}
+
+.accordion-list {
+  // width: 100%;
+  width: 90%;
+  // padding-top: 120px;
+  margin: auto;
+  margin-bottom: 50px;
+}
+
+.initial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.name_user {
+  text-align: center;
+  width: 100%;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: -25px;
+  font-size: 1.1em;
+  // text-shadow: 8px 5px 15px black;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.list_befores {
+  width: fit-content;
+  position: absolute;
+  display: block;
+  gap: 0.1em;
+  left: 10%;
+
+  padding: 0.2em;
+  border: 1px solid #00000061;
+  border-radius: 12px;
+  max-width: 260px;
+}
+
+.item_bef {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  background-color: $primary_ligth;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: none;
+
+  color: white;
+  font-size: 0.8em;
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
+
+.item_bef.show {
+  display: flex;
+  cursor: pointer;
+}
+
+.childs {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+
+  box-shadow: 8px 5px 5px black;
+
+
+  background-color: $primary_ligth;
+  cursor: pointer !important;
+
+  // display: grid !important;
+  // place-content: center !important;
+  .name_user {
+    font-size: 0.9em;
+
+  }
+}
+
+
+
+
+@media (max-width: 1251px) {
+  .list_befores {
+    margin-left: -90px;
+    overflow: scroll;
+  }
+}
+
+@media (max-width: 986px) {
+  .tree-referrals {
+    scale: 0.9;
+    margin-left: -1%;
+  }
+
+  .list_befores {
+    margin-left: -100px;
+    overflow: scroll;
+  }
+
+}
+
+
+@media screen and (max-width: 768px) {
+  .tree {
+    justify-content: flex-start;
+    // scale: 0.5;
+  }
+
+  .tree li a {
+    border: 1px solid $primary_dark;
+    padding: 0.6em;
+  }
+
+  .title-body {
+    margin-top: 20px;
+  }
+
+  .pTotalUser {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 0px;
+    font-size: 0.9em;
+    left: 20px;
+  }
+
+}
+
+@media (max-width: 540px) {
+  .accordion-list {
+    // width: 100%;
+    width: 95%;
+  }
+
+  .tree-referrals {
+    scale: 0.7;
+    margin-left: -2%;
+  }
+
+  .list_befores {
+    margin-top: 480px;
+    max-height: 165px;
+    overflow: scroll;
+  }
+}

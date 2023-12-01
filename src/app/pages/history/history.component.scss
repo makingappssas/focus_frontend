@@ -1,0 +1,47 @@
+.buttons {
+  gap: 1em;
+}
+
+.w-fit-content {
+  width: fit-content;
+}
+
+.filters {
+  // display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  width: 100%;
+  gap: 1em;
+  font-size: 0.9em;
+}
+.filter-date-one, .filter-date-two{
+    position: relative;
+}
+.lbl-input{
+    position: absolute;
+    text-shadow: -1px 3px 5px #000000;
+    font-size: 0.8em;
+    left: 0;
+    top: 0;
+    transform: translateY(-10px);
+    color: white;
+    background-color: #000000;
+}
+
+.td-copy{
+  cursor: pointer;
+}
+.info-totals{
+  flex-flow: wrap;
+  p{
+    width: fit-content;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 570px) {
+  .buttons{
+    display: block !important;
+    gap: 0.5;
+  }
+}

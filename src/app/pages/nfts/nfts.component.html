@@ -1,0 +1,149 @@
+<div class="container-nfts div-scroll">
+
+  <!-- <div class="card-nft create-nft" *ngIf="currentRol == '1'" (click)="clickId('openModalDetailNft')">
+    <i class="fa-solid fa-plus"></i>
+  </div> -->
+  <a id="goToLinkNft" href="#" target="_blank" class="d-none"></a>
+
+  <div class="card-nft">
+    <span class="detailNft" (click)="clickId('goToLinkNft')">
+      <span class="more-info">
+        {{'Más información' | translate}}&nbsp;<i class="fa-solid fa-link"></i>
+      </span>
+    </span>
+    <div class="img" (click)="openModal(modalDetailNft, {price: '$1.000 USDT', name: '2023 Classic', name_img: '2023_classic.webp', amount: amountOfNfts.classic, numberOfBuy: 1})">
+      <img src="./assets/nfts/2023_classic.webp" alt="NFT-Elite">
+    </div>
+    <div class="texts">
+      <p class="text-center">2023 Classic</p>
+      <p class="price-nft text-center">$1.000 USDT</p>
+      <span class="info">
+        <!-- {{amountOfNfts.classic}} {{'disponibles' | translate}} -->
+      </span>
+    </div>
+    <div class="buy" *ngIf="currentRol == '3'" (click)="getNftAviable(1)">
+      {{'Comprar ahora' | translate}}
+    </div>
+  </div>
+
+  <div class="card-nft">
+    <span class="detailNft" (click)="clickId('goToLinkNft')">
+      <span class="more-info">
+        {{'Más información' | translate}}&nbsp;<i class="fa-solid fa-link"></i>
+      </span>
+    </span>
+    <div class="img" (click)="openModal(modalDetailNft, {price: '$3.000 USDT', name: '2023 Elite', name_img: '2023_elite.webp', amount: amountOfNfts.elite,  numberOfBuy: 2})">
+      <img src="./assets/nfts/2023_elite.webp" alt="NFT-Elite">
+    </div>
+    <div class="texts">
+      <p class="text-center">2023 Elite</p>
+      <p class="price-nft text-center">$3.000 USDT</p>
+      <span class="info">
+        <!-- {{amountOfNfts.elite}} {{'disponibles' | translate}} -->
+      </span>
+    </div>
+    <div class="buy" *ngIf="currentRol == '3'" (click)="getNftAviable(2)">
+      {{'Comprar ahora' | translate}}
+    </div>
+  </div>
+
+  <div class="card-nft">
+    <span class="detailNft" (click)="clickId('goToLinkNft')">
+      <span class="more-info">
+        {{'Más información' | translate}}&nbsp;<i class="fa-solid fa-link"></i>
+      </span>
+    </span>
+    <div class="img" (click)="openModal(modalDetailNft, {price: '$6.000 USDT', name: '2023 Royal', name_img: '2023_royal.webp', amount: amountOfNfts.royal,  numberOfBuy: 3})">
+      <img src="./assets/nfts/2023_royal.webp" alt="NFT-Elite">
+    </div>
+    <div class="texts">
+      <p class="text-center">2023 Royal</p>
+      <p class="price-nft text-center">$6.000 USDT</p>
+      <span class="info">
+        <!-- {{amountOfNfts.royal}} {{'disponibles' | translate}} -->
+      </span>
+    </div>
+    <div class="buy" *ngIf="currentRol == '3'" (click)="getNftAviable(3)">
+      {{'Comprar ahora' | translate}}
+    </div>
+  </div>
+
+
+</div>
+
+
+<app-loading *ngIf="loading" [textShow]="contractService.textForLoading"></app-loading>
+
+<!-- <button id="callAllNfts" (click)="getNfts();" class="d-none"></button> -->
+<button id="openModalDetailNft" (click)="openModal(modalDetailNft)" class="d-none"></button>
+<button id="openModalBuyNft" (click)="openModal(modalBuyNft)" class="d-none"></button>
+
+<ng-template #modalDetailNft let-modal let-c="close" let-d="dismiss">
+  <div class="modal-body opacity-09">
+    <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="d('Cross click')">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </button>
+    <h5 class="modal-title title_modal animate__animated" id="exampleModalLabelSaleInterna">
+      {{currentNft.name | translate}}</h5>
+
+    <div class="content-detail mt-3">
+      <div class="img-content">
+        <img src="./assets/nfts/{{currentNft.name_img}}" alt="NFT" class="img-fluid">
+      </div>
+      <div class="info-content">
+        <p class="acumulated">{{'Disponibles' | translate}}: {{currentNft.amount}}</p>
+        <p class="price">{{currentNft.price}} USDT</p>
+        <div class="content-table div-scroll">
+          <table>
+            <thead>
+              <tr class="title_table">
+                <th>{{'Rubro' | translate}}</th>
+                <th>{{'Tiempo' | translate}}</th>
+                <th>{{'Aplicación' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+  
+              <tr *ngFor="let item of detailShow">
+                <td>{{item.rubro | translate}}</td>
+                <td>{{item.time | translate}}</td>
+                <td>{{item.application | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button class="btn-style-3" (click)="getNftAviable(currentNft.numberOfBuy)" *ngIf="currentRol == '3'">
+          {{'Comprar ahora' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalBuyNft let-modal let-c="close" let-d="dismiss">
+  <div class="modal-body opacity-09">
+    <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="d('Cross click')">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </button>
+    <!-- <h5 class="modal-title title_modal animate__animated" id="exampleModalLabelSaleInterna">
+      {{'Comprar NFT' | translate}}</h5> -->
+
+    <div class="content">
+      <div class="image mt-1">
+        <img [src]="currentNft.img" class="img-fluid" alt="">
+      </div>
+      <div class="info-gen">
+        <p class="price">
+          {{currentNft.price}} USDT
+        </p>
+        <p class="info">
+          {{currentNft.date_creation | date}}
+        </p>
+      </div>
+      <button class="btn-style-3" (click)="getNftAviable(currentNft)">
+        {{'Comprar ahora' | translate}}
+      </button>
+    </div>
+  </div>
+</ng-template>

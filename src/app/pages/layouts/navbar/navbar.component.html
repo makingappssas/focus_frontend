@@ -1,0 +1,225 @@
+<div class="navbar-content">
+  <div class="info">
+    <div class="info-text" *ngIf="typeUser == '3'">
+      <p><i class="fa-solid fa-money-bill-wave"></i>&nbsp;{{'Referidos' | translate}}</p>
+      <p>{{pointsReferrals}}&nbsp;USDT</p>
+    </div>
+    <div class="info-text" *ngIf="typeUser == '3'">
+      <p>{{'NFTs' | translate}}</p>
+      <p>{{countNft}}</p>
+    </div>
+    <div class="info-text"  *ngIf="typeUser == '3'">
+      <p>BLRE</p>
+      <p>{{balanceBlr}}</p>
+    </div>
+    <div *ngIf="typeUser == '3'">
+      <button class="btn-style-1 m-0" (click)="copy(linkReferrals)">
+        <i class="fa-solid fa-link"></i><span class="text-ref">&nbsp;{{'Referir' | translate}}</span>
+      </button>
+      <!-- <p>Link Referdido</p>
+      <p><i class="fa-solid fa-link"></i></p> -->
+    </div>
+  </div>
+  <div class="functions">
+    <div class="box-functions" *ngIf="typeUser == '3'">
+      <button id="btn-connect-wallet" class="btn-style-1 btn-wallets-connection m-0" (click)="connectWallet()" *ngIf="!walletConnect" [ngClass]="{connect: accountConnect}">
+        <i class="fa-solid fa-plug" *ngIf="wallet == 'Wallet'"></i>&nbsp;{{wallet}}<span *ngIf="wallet == 'Wallet'">&nbsp;BEP 20</span>
+      </button>
+      <!-- <button class="btn-style-1 btn-wallets-connection" (click)="clearSessionWallet()" *ngIf="walletConnect">
+        Eliminar sesión
+      </button> -->
+      <!-- AQUI VA LA PARTE DE NOTIFICACIONES -->
+    </div>
+    <div class="box-functions box-language">
+      <div class="box-change-language">
+        <div ngbDropdown  class="dropdown language">
+          <button class="btn btn-secondary dropdown-toggle language" type="button" id="dropdownMenuButton" ngbDropdownToggle>
+            <img [src]="routeImgLanguage" alt="">
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a ngbDropdownItem class="dropdown-item" (click)="setLanguauge('en')"><img src="./assets/logos/usa.webp" alt=""></a>
+            <a ngbDropdownItem class="dropdown-item" (click)="setLanguauge('es')"><img src="./assets/logos/spain.webp" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-functions routes-content">
+      <div ngbDropdown  class="dropdown routes">
+        <button class="no-button btn btn-secondary btn-routes-links no-toggle" type="button" id="dropdownMenuButtonRoutes" ngbDropdownToggle>
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu routes-links" aria-labelledby="dropdownMenuButtonRoutes">
+          <app-route-links></app-route-links>
+          <button class="btn-style-1 referral-cel" (click)="copy(linkReferrals)">
+            <i class="fa-solid fa-link"></i> Referir
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-functions">
+      <div ngbDropdown  class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle no-toggle no-button" type="button" id="dropdownMenuButtonAvatar" ngbDropdownToggle>
+          <img src="./assets/avatar.svg" alt="avatar-img" class="avatar-img">
+          <p class="username" title="{{username}}">{{username}}</p>
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButtonAvatar">
+          <!-- <li class="nav-item" ngbDropdownItem>
+            <a routerLink="/profile" routerLinkActive="active" class="nav-link">
+              <span>&nbsp;{{'Perfil' | translate}}</span>
+            </a>
+          </li> -->
+          <div class="box-functions box-language-profile">
+            <div class="box-change-language">
+              <div ngbDropdown  class="dropdown language">
+                <button class="btn btn-secondary dropdown-toggle language" type="button" id="dropdownMenuButton" ngbDropdownToggle>
+                  <img [src]="routeImgLanguage" alt="">
+                </button>
+                <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a ngbDropdownItem class="dropdown-item" (click)="setLanguauge('en')"><img src="./assets/logos/usa.webp" alt=""></a>
+                  <a ngbDropdownItem class="dropdown-item" (click)="setLanguauge('es')"><img src="./assets/logos/spain.webp" alt=""></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <button class="no-button text-center btn-dropdown-avatar" (click)="goTo('profile')" ngbDropdownItem>
+            <i class="fa-solid fa-user"></i>&nbsp;{{'Perfil' | translate}}
+          </button>
+          <button class="no-button text-center btn-dropdown-avatar" (click)="goTo('my-nfts')" ngbDropdownItem *ngIf="typeUser == '3'">
+            <i class="fa-solid fa-heart"></i>&nbsp;{{'Mis NFTs' | translate}}
+          </button>
+
+         
+          <button class="no-button btn-logOut btn-dropdown-avatar text-center" (click)="logOut()" ngbDropdownItem>
+            <i class="fa-solid fa-right-from-bracket"></i>&nbsp;{{'Salir' | translate}}
+          </button>
+
+        </div>
+      </div>
+      <!-- <span (click)="goTo('profile')" class="cursor-pointer">
+        <img src="./assets/avatar.svg" alt="avatar-img" class="avatar-img">
+      </span> -->
+    </div>
+
+
+      <!--Notificaciones -->
+  <li class="nav-item dropdown-notifications" ngbDropdown *ngIf="!current_route?.includes('home')">
+    <div (click)="getNotifications()" ngbDropdownToggle class="nav-link no-toggle">
+      <i class="fas fa-bell fa-fw icon_notifications"></i>
+      <span class="badge badge-danger badge-counter"
+        [ngClass]="{'d-none': number_notifications == '0'}">{{number_notifications}}</span>
+    </div>
+    <div ngbDropdownMenu class="dropdown-list-notifications dropdown-menu dropdown-menu-right animate slideIn"
+      aria-labelledby="alertsDropdown">
+      <div *ngIf="showNotifications">
+        <h6 class="dropdown-header">
+          {{'Notificaciones' | translate}}
+        </h6>
+        <div class="dropdown-item noti d-flex align-items-center"
+          [ngClass]="{'cursor-pointer': item.url != 'null' && item.url != null, 'cursor-default': item.url == 'null' || item.url == null}"
+          *ngFor="let item of notifications | slice:0:3; index as i" (click)="gotoUrl(item.url, i)">
+          <a *ngIf="!internalUrl[i]" id="goToUrl{{i}}" target="_blank" class="d-none" href="{{item.url}}"></a>
+          <a *ngIf="internalUrl[i]" id="goToUrl{{i}}" class="d-none" routerLink="/{{urlInternal[i]}}"></a>
+          <div class="mr-3 cont_icon_noti">
+            <div class="icon-circle" [ngClass]="{
+            bg_primary: item.status_icon == 'info',
+            bg_warning: item.status_icon == 'warning',
+            bg_success: item.status_icon == 'success',
+            bg_danger: item.status_icon == 'error'
+          }">
+              <i *ngIf="item.status_icon == 'info'" class="fa-solid fa-circle-info"></i>
+              <i *ngIf="item.status_icon == 'success'" class="fa-solid fa-circle-check"></i>
+              <i *ngIf="item.status_icon == 'warning'" class="fas fa-exclamation-triangle text-white"></i>
+              <i *ngIf="item.status_icon == 'error'" class="fa-solid fa-xmark"></i>
+            </div>
+          </div>
+          <div class="text_notification">
+            <span class="title_box_notification">{{item.subject | translate}}</span>
+            <div class="small text-gray-500">{{item.date_notification}}</div>
+            <span class="font-weight-bold text-of-noti">{{item.text_notification | translate}}</span>
+          </div>
+        </div>
+        <a (click)="showModal(content_notifications, 'notifications')"
+          class="cursor-pointer dropdown-item noti text-center small text-gray-500">
+          {{'Ver todas las notificaciones' | translate}}
+        </a>
+      </div>
+      <div *ngIf="!showNotifications">
+        <div *ngIf="loading_notifications" class="w-100 d-flex align-items-center justify-content-center p-4">
+          <img src="./assets/loading.gif" width="28" alt="" class="p-0 m-0">
+        </div>
+        <a *ngIf="!loading_notifications"
+          class="dropdown-item noti text-center small text-gray-500 not-notify">{{'No hay notificaciones' | translate}}</a>
+      </div>
+    </div>
+  </li>
+  </div>
+</div>
+
+<button id="getPointsReferrals" (click)="getPointsReferrals()" class="d-none"></button>
+<button id="getBalanceBlr" (click)="getBalanceBlr()" class="d-none"></button>
+<button id="openModalAddWallet" (click)="openModal(modalAddWallet)" class="d-none"></button>
+
+<ng-template #modalAddWallet let-modal let-c="close" let-d="dismiss">
+  <div class="modal-body opacity-09">
+    <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="d('Cross click')">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </button>
+    <h5 class="modal-title title_modal animate__animated" id="exampleModalLabelSaleInterna">
+      {{'Agrega una wallet de pago' | translate}}</h5>
+
+      <input type="text" name="" id="" class="form-control mt-2" [(ngModel)]="walletTyping">
+
+      <button class="btn-style-1 mt-3" (click)="saveWalletForPay()">
+        {{'Guardar wallet' | translate}}
+      </button>
+  </div>
+</ng-template>
+
+<ng-template #content_notifications let-modal>
+  <div class="modal-body">
+    <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </button>
+    <div class="container-notifications beautiful-scroll pt-1">
+      <p class="title-modal">{{'Notificaciones' | translate}}</p>
+        <div *ngFor="let item of notifications; index as i" class="cont_notify_and_btn_delete">
+          <a class="dropdown-item noti d-flex align-items-center"
+            [ngClass]="{'cursor-pointer link-style': item.url != null}" (click)="gotoUrl(item.url, i)">
+            <a *ngIf="!internalUrl[i]" id="goToUrl{{i}}" target="_blank" class="d-none" href="{{item.url}}"></a>
+            <a *ngIf="internalUrl[i]" id="goToUrl{{i}}" class="d-none" routerLink="/{{urlInternal[i]}}"></a>
+            <div class="mr-3 cont_icon_noti">
+              <div class="icon-circle" [ngClass]="{
+              bg_primary: item.status_icon == 'info',
+              bg_warning: item.status_icon == 'warning',
+              bg_success: item.status_icon == 'success',
+              bg_danger: item.status_icon == 'error'
+            }">
+
+                <i *ngIf="item.status_icon == 'info'" class="fa-solid fa-circle-info"></i>
+                <i *ngIf="item.status_icon == 'success'" class="fa-solid fa-circle-check"></i>
+                <i *ngIf="item.status_icon == 'warning'" class="fas fa-exclamation-triangle text-white"></i>
+                <i *ngIf="item.status_icon == 'error'" class="fa-solid fa-xmark"></i>
+              </div>
+            </div>
+            <div class="text_notification">
+              <span class="title_box_notification">{{item.subject | translate}}</span>
+              <div class="small text-gray-500">{{item.date_notification}}</div>
+              <span class="font-weight-bold modal-text-notifications">{{item.text_notification | translate}}</span>
+            </div>
+
+          </a>
+          <span class="delete_icon" (click)="deleteNotification(item.id)">
+            <i class="fa-solid fa-trash"></i>
+          </span>
+        </div>
+  </div>
+  <button class="d-block btn-style-1  mt-3 mb-2 float-end delete_all" style="width: fit-content;"
+    (click)="deleteAllNotify();"><i class="fa-solid fa-trash"></i> {{'Eliminar todo' | translate}}</button>
+  </div>
+
+</ng-template>
+

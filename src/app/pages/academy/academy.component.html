@@ -1,0 +1,385 @@
+<div id="cont-btns" class="animate__animated h-100">
+    <div class="container-title-background" style="margin-top: 0px !important;">
+      <h5 class="mt-0 title-page text-center text-bold">{{'Knowledge' | translate}}</h5>
+    </div>
+    <div class="cont-btns mt-3">
+      <div class="container-btn">
+        <button id="btn-view-docs" class="btn-style-3 btn-view" (click)="changeActualView('cont-documents')">
+          <div class="cont-icon">
+            <i class="fa-solid fa-file"></i>
+          </div>
+          <span>{{'Documentos' | translate}}</span>
+        </button>
+      </div>
+      <div class="container-btn">
+        <button id="btn-view-image" class="btn-style-3 btn-view" (click)="changeActualView('cont-audio')">
+          <div class="cont-icon">
+            <i class="fa-solid fa-headphones"></i>
+          </div>
+          <span>{{'Podcast' | translate}}</span>
+        </button>
+      </div>
+      <div class="container-btn">
+        <button id="btn-view-video" class="btn-style-3 btn-view" (click)="changeActualView('container-courses')">
+          <div class="cont-icon">
+            <i class="fa-solid fa-film"></i>
+          </div>
+          <span>{{'Cursos' | translate}}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cont-general-page">
+
+    <div id="header_all_bodys" class="header_all_bodys animate__animated d-none">
+      <div class="header mb-2">
+        <div class="btn-back d-flex">
+          <button (click)="backView(actual_view)" class="no-button"> 
+            <i class="fa-regular fa-circle-left"></i>
+          </button>
+        </div>
+        <div class="btns mt-0" *ngIf="rol_user == '2'">
+          <div class="cont-btn">
+            <button class="btn-style-1" (click)="openModal(content_load_file, 'load-document')">
+              {{name_button_add | translate}}
+            </button>
+          </div>
+        </div>
+        <!-- <div class="row content-back-button mb-1">
+         
+        </div> -->
+        <div class="title" style="max-width: fit-content;">
+          <h5>
+            {{title_view | translate}}<span *ngIf="current_course != ''">&nbsp;/&nbsp;{{current_course}}</span>
+          </h5>
+        </div>
+      </div>
+      <div class="filters">
+        <div class="col" [ngClass]="{filters: rol_user == '2'}">
+          <div class="cont-filters">
+            <div class="div-filter" *ngIf="actual_view == 'cont-documents'">
+              <select class="form-select" name="" id="" [(ngModel)]="currentType_resource" (change)="filterResources()">
+                <option id="filterTypeFileOption" value="docs" hidden>{{nameFilterTypeFile | translate}}</option>
+                <option *ngFor="let item of type_resource | slice: 0:4" value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+            <div class="div-filter" *ngIf="rol_user == '2' && type_file != 'video'">
+              <select class="form-select" name="" id="" [(ngModel)]="current_lang_for_filter"
+                (change)="filterResources()">
+                <option id="filterLang" value="all" hidden>{{nameFilterLan | translate}}</option>
+                <option value="es">{{'Español' | translate}}</option>
+                <option value="en">{{ 'Inglés' | translate}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div id="cont-documents" class="cont-documents animate__animated d-none">
+      <div class="body">
+  
+        <!-- <div class="container-title-background">
+          <h5 class="">{{'Documentos' | translate}}</h5>
+        </div> -->
+  
+        <div class="container-table table-image-top-menos">
+          <div class="table-responsive mt-2 pb-3">
+            <table class="table table-hove table-sm" style="color: #000;">
+              <thead>
+                <tr class="title_table">
+                  <th>{{'Título' | translate}}</th>
+                  <th>{{'Tipo' | translate}}</th>
+                  <th>{{'Fecha de creación' | translate}}</th>
+                  <th class="text-center">{{'Acciones' | translate}}</th>
+                </tr>
+              </thead>
+              <span><br></span>
+              <tbody>
+    
+                <tr *ngFor="let item of resources | slice: (page-1) * pageSize : page * pageSize"
+                  class="">
+                  <td>
+                    <span class="cursor-pointer" placement="right" ngbTooltip="{{item.title}}" (click)="showDetailDocument(item.title, item.description)">
+                      {{item.title}}
+                    </span>
+                  </td>
+                  <td>{{item.type_document}}</td>
+                  <td>{{item.created | date: 'dd/MM/yyyy'}}</td>
+                  <td>
+                    <div class="cont-actions">
+                      <div *ngIf="rol_user == '2'">
+                        <span title="{{'Editar' | translate}}" class="cursor-pointer"
+                          (click)="openModal(content_load_file, 'load-document', item.id)">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </span>
+                      </div>
+                      <div *ngIf="item.status == 'Aprobado' || item.comments == '' || item.comments == null">
+                        <a href="{{item.document}}" download="{{item.document}}" class="link-download">
+                          <i class="fa-solid fa-cloud-arrow-down"></i>
+                        </a>
+                      </div>
+                      <div *ngIf="rol_user == '2'">
+                        <span title="{{'Eliminar' | translate}}" class="cursor-pointer text-danger"
+                          (click)="deleteDocument(item.id)">
+                          <i class="fa-solid fa-trash"></i>
+                        </span>
+                      </div>
+  
+                    </div>
+                  </td>
+              </tbody>
+            </table>
+            
+            <p *ngIf="resources?.length == 0" class="mt-3 text-center w-100 font-weight-bold no-data-table">
+              {{'No hay datos en esta tabla' | translate}}
+            </p>
+          </div>
+          <ngb-pagination *ngIf="resources.length > pageSize" [collectionSize]="resources.length" [(page)]="page" [maxSize]="10" [pageSize]="pageSize"
+            [rotate]="true" [ellipses]="false" size="sm" [boundaryLinks]="false">
+            <ng-template ngbPaginationPrevious><i class="fa-solid fa-angles-left icon-control-table"></i>&nbsp;{{'Anterior' | translate}}</ng-template>
+            <ng-template ngbPaginationNext>{{'Siguiente' | translate}}&nbsp;<i class="fa-solid fa-angles-right icon-control-table"></i></ng-template>
+          </ngb-pagination>
+        </div>
+      </div>
+      <!-- <ngb-pagination [collectionSize]="resources.length" [(page)]="page" [maxSize]="10" [pageSize]="pageSize"
+        [rotate]="true" [ellipses]="false" size="sm" [boundaryLinks]="false"></ngb-pagination> -->
+  
+    </div>
+  
+    <div id="container-courses" class="courses animate__animated d-none mt-3">
+      <div class="grid-courses">
+        <div class="" *ngFor="let item of resources">
+          <div ngbDropdown class="dropdown" *ngIf="rol_user == '2'">
+            <button class="btn btn-secondary icon-option no-toggle" type="button" id="dropdownMenuButtonCourses" ngbDropdownToggle>
+              <i class="fa-solid fa-circle-chevron-down"></i>
+            </button>
+            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButtonCourses">
+              <a ngbDropdownItem class="dropdown-item cursor-pointer" (click)="openModal(content_load_file, 'load-document', item.id)">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>{{'Editar' | translate}}</span>
+              </a>
+              <a ngbDropdownItem class="dropdown-item cursor-pointer" (click)="deleteCourse(item.id)">
+                <i class="fa-solid fa-trash"></i>
+                {{'Eliminar' | translate}}
+              </a>
+            </div>
+          </div>
+          <div class="box-course">
+            <div class="cont-audio">
+              <img src="{{item.img}}" alt="">
+            </div>
+            <div class="box-body">
+              <div class="texts">
+                <div class="title">
+                  <span *ngIf="item.title.length<=23">
+                    {{item.title}}
+                  </span>
+                  <span *ngIf="item.title.length>23">
+                    {{item.title.substring(0, 23)}}...
+                  </span>
+                </div>
+                <div class="count-video">
+                  <small>{{item.count_chapters}} videos</small>
+                </div>
+                <div class="description">
+                  {{item.description}}
+                </div>
+                <div class="date">
+                  <small>{{'Creado el' | translate}} {{item.created | date: 'd/MM/yy'}}</small>
+                </div>
+              </div>
+  
+              <div class="btns">
+                <button class="btn-style-1 btn-courses-videos" (click)="viewListVideo(item.id, item.title)">
+                  {{'Ver lista de videos' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-no-data" *ngIf="resources.length == 0">
+          {{'No hay ningun curso' | translate}}
+        </div>
+      </div>
+    </div>
+  
+  
+    <div id="cont-audio" class="cont-audio animate__animated d-none">
+      <div class="body">
+<!--   
+        <div class="container-title-background">
+          <h5 class="">{{'Audios' | translate}}</h5>
+        </div> -->
+  
+        <div class="container-table table-image-top-menos">
+          <div class="table-responsive mt-2 pb-3">
+            <table class="table table-hove table-sm" style="color: #000;">
+              <thead>
+                <tr class="title_table">
+                  <th>{{'Título' | translate}}</th>
+                  <th>{{'Tipo' | translate}}</th>
+                  <th>{{'Duración' | translate}}</th>
+                  <th>{{'Fecha de creación' | translate}}</th>
+                  <th class="text-center">{{'Acciones' | translate}}</th>
+                </tr>
+              </thead>
+              <span><br></span>
+              <tbody>
+    
+                <tr *ngFor="let item of resources | slice: (page-1) * pageSize : page * pageSize"
+                  class="">
+                  <td>
+                    <span class="cursor-pointer" (click)="showDetailAudio(item.title, item.description)">
+                      <i class="fa-solid fa-file-audio"></i>&nbsp;{{item.title}}
+                    </span>
+                  </td>
+                  <td>{{item.author}}</td>
+                  <td>{{item.time_audio}}</td>
+                  <td>{{item.created | date: 'dd/MM/yyyy'}}</td>
+                  <td class="td-actions">
+                    <div class="cont-actions">
+                      <div class="">
+                        <span title="{{'Reproducir audio' | translate}}" class="cursor-pointer"
+                          (click)="playAudio(item.title, item.document, item.author)">
+                          <i class="fa-solid fa-circle-play"></i>
+                        </span>
+                      </div>
+                      <div class="" *ngIf="rol_user == '2'">
+                        <span title="{{'Editar' | translate}}" class="cursor-pointer"
+                          (click)="openModal(content_load_file, 'load-document', item.id)">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </span>
+                      </div>
+                      <div class="" *ngIf="item.status == 'Aprobado' || item.comments == '' || item.comments == null">
+                        <a href="{{item.document}}" download="{{item.document}}" class="link-download">
+                          <i class="fa-solid fa-circle-down"></i>
+                        </a>
+                      </div>
+                      <div class="" *ngIf="rol_user == '2'">
+                        <span title="{{'Eliminar' | translate}}" class="cursor-pointer text-danger"
+                          (click)="deleteDocument(item.id)">
+                          <i class="fa-solid fa-trash"></i>
+                        </span>
+                      </div>
+  
+                    </div>
+                  </td>
+              </tbody>
+            </table>
+            
+            <p *ngIf="resources?.length == 0" class="mt-3 text-center w-100 font-weight-bold no-data-table">
+              {{'No hay datos en esta tabla' | translate}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <ngb-pagination *ngIf="resources.length > pageSize" [collectionSize]="resources.length" [(page)]="page" [maxSize]="10" [pageSize]="pageSize"
+      [rotate]="true" [ellipses]="false" size="sm" [boundaryLinks]="false">
+      <ng-template ngbPaginationPrevious><i class="fa-solid fa-angles-left icon-control-table"></i>&nbsp;{{'Anterior' | translate}}</ng-template>
+      <ng-template ngbPaginationNext>{{'Siguiente' | translate}}&nbsp;<i class="fa-solid fa-angles-right icon-control-table"></i></ng-template>
+    </ngb-pagination>
+    </div>
+  
+  
+    <div class="cont-second-pages">
+      <div id="cont-video" class="cont-video animate__animated d-none">
+        <div class="body">
+          <!-- <div class="btns mt-0 col-lg-2">
+            <h1 class="title-view video">{{current_course}}</h1>
+          </div> -->
+  
+          <div class="videos">
+            <div *ngFor="let item of videos_of_courses">
+              <div class="box-video">
+                <div ngbDropdown class="dropdown" *ngIf="rol_user == '2'">
+                  <button class="btn btn-secondary icon-option no-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                    <i class="fa-solid fa-circle-chevron-down"></i>
+                  </button>
+                  <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item cursor-pointer" ngbDropdownItem
+                      (click)="openModal(content_load_file, 'load-document', item.id)">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                      <span>{{'Editar' | translate}}</span>
+                    </a>
+                    <a class="dropdown-item cursor-pointer" (click)="deleteVideo(item.id)" ngbDropdownItem>
+                      <i class="fa-solid fa-trash"></i>
+                      {{'Eliminar' | translate}}
+                    </a>
+                  </div>
+                </div>
+  
+                <span (click)="openModalPreview(content_preview_file, 'view-video', item)">
+                  <i class="fa-solid fa-circle-play icon-play"></i>
+                </span>
+                <img src="{{item.img}}" alt="" (click)="openModalPreview(content_preview_file, 'view-video', item)">
+              </div>
+              <small class="d-block title-document text-bold text-light" placement="bottom"
+                ngbTooltip="{{item.title}}">{{item.title}}</small>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+  
+  
+  </div>
+
+
+
+  <ng-template #content_load_file let-modal>
+    <div class="modal-body">
+      <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+      <app-load-files-academy type_file="{{type_file}}" (closeModal)="eventCloseModal($event)" id_file="{{id_file_edit}}"
+        id_course="{{current_id_course}}">
+      </app-load-files-academy>
+  
+    </div>
+  </ng-template>
+  
+  
+  <ng-template #content_preview_file let-modal>
+    <div class="modal-body">
+      <button id="closeModal" type="button" class="btn-close_" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+      <div class="container-modal">
+        <div class="prev-video" *ngIf="urlCurrentVideo != undefined">
+          <a class="download-img-modal cursor-pointer" download="{{currentData.title}}" [href]="urlCurrentVideo"
+            placement="bottom" ngbTooltip="{{'Descargar' | translate}}">
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+          </a>
+  
+          <!-- <input id="playvideo" class="d-none" type="text" value="{{id_video}}" onclick="onYouTubeIframeAPIReady(value)"> -->
+          <div class="cont-youtube">
+            <!-- <div id="player" class="iframe_video"></div> -->
+            <video [src]="urlCurrentVideo" class="w-100" controls="true"  oncanplay="this.play()" onloadedmetadata="this.muted=true" autoplay loop></video>
+          </div>
+          <p class="title-video text-bold mt-2">{{currentData.title | translate}}</p>
+          <small><span
+              class="text-bold">{{'Fecha de creación' | translate}}</span>:&nbsp;{{currentData.created | date}}</small>
+          <hr>
+          <small>{{currentData?.description}}</small>
+        </div>
+  
+        <div class="prev-image" *ngIf="urlCurrentVideo == undefined">
+          <a class="download-img-modal cursor-pointer" download="{{currentData.resource}}" href="{{currentData.resource}}"
+            placement="bottom" ngbTooltip="{{'Descargar' | translate}}">
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+          </a>
+          <img src="{{currentData.resource}}" alt="" class="img-fluid w-100">
+        </div>
+  
+      </div>
+    </div>
+  </ng-template>
+  
+  <app-loading *ngIf="loading"></app-loading>
